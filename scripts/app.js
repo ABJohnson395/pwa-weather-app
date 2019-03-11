@@ -50,11 +50,23 @@
     var selected = select.options[select.selectedIndex];
     var key = selected.value;
     var label = selected.textContent;
-    // TODO init the app.selectedCities array here
+    if (!app.selectedCities) {
+      app.selectedCities = [];
+    }
     app.getForecast(key, label);
-    // TODO push the selected city to the array and save here
+    app.selectedCities.push({
+      key: key,
+      label: label
+    });
+    app.saveSelectedCities();
     app.toggleAddDialog(false);
   });
+
+  // TODO init the app.selectedCities array here
+  // app.getForecast(key, label);
+  // TODO push the selected city to the array and save here
+  // app.toggleAddDialog(false);
+
 
   document.getElementById('butAddCancel').addEventListener('click', function() {
     // Close the add new city dialog
@@ -180,8 +192,8 @@
           app.updateForecastCard(results);
         }
       } else {
-        // Return the initial weather forecast since no data is available.
-        app.updateForecastCard(initialWeatherForecast);
+        // Return the fake weather forecast since no data is available.
+        app.updateForecastCard(fakeForecasts[key]);
       }
     };
     request.open('GET', url);
@@ -266,78 +278,17 @@
     }
   };
 
-  /*
-   * Fake weather data that is presented when the user first uses the app,
-   * or when the user has not saved any cities. See startup code for more
-   * discussion.
-   */
-  var initialWeatherForecast = {
-    key: '2459115',
-    label: 'New York, NY',
-    created: '2016-07-22T01:00:00Z',
-    channel: {
-      astronomy: {
-        sunrise: "5:43 am",
-        sunset: "8:21 pm"
-      },
-      item: {
-        condition: {
-          text: "Windy",
-          date: "Thu, 21 Jul 2016 09:00 PM EDT",
-          temp: 56,
-          code: 24
-        },
-        forecast: [{
-            code: 44,
-            high: 86,
-            low: 70
-          },
-          {
-            code: 44,
-            high: 94,
-            low: 73
-          },
-          {
-            code: 4,
-            high: 95,
-            low: 78
-          },
-          {
-            code: 24,
-            high: 75,
-            low: 89
-          },
-          {
-            code: 24,
-            high: 89,
-            low: 77
-          },
-          {
-            code: 44,
-            high: 92,
-            low: 79
-          },
-          {
-            code: 44,
-            high: 89,
-            low: 77
-          }
-        ]
-      },
-      atmosphere: {
-        humidity: 56
-      },
-      wind: {
-        speed: 25,
-        direction: 195
-      }
-    }
-  };
+  /************************************************************************
+   *
+   * Code required to start the app
+   *
+   * NOTE: To simplify this codelab, we've used localStorage.
+   *   localStorage is a synchronous API and has serious performance
+   *   implications. It should not be used in production applications!
+   *   Instead, check out IDB (https://www.npmjs.com/package/idb) or
+   *   SimpleDB (https://gist.github.com/inexorabletash/c8069c042b734519680c)
+   ************************************************************************/
 
-  /****
-   * Please note that this app uses localStorage
-   * This should not be used in production
-   */
   app.selectedCities = localStorage.selectedCities;
   if (app.selectedCities) {
     app.selectedCities = JSON.parse(app.selectedCities);
@@ -345,11 +296,15 @@
       app.getForecast(city.key, city.label);
     });
   } else {
-    // The user's first time with the app or has not saved any cities
-    app.updateForecastCard(initialWeatherForecast);
+    /* The user is using the app for the first time, or the user has not
+     * saved any cities, so show the user some fake data. A real app in this
+     * scenario could guess the user's location via IP lookup and then inject
+     * that data into the page.
+     */
+    app.updateForecastCard(fakeForecasts);
     app.selectedCities = [{
-      key: initialWeatherForecast.key,
-      label: initialWeatherForecast.label
+      key: '2459115',
+      label: 'New York, NY'
     }];
     app.saveSelectedCities();
   }
