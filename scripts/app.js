@@ -164,7 +164,7 @@
   app.getForecast = function(key, label) {
     var statement = 'select * from weather.forecast where woeid=' + key;
     var url = 'https://query.yahooapis.com/v1/public/yql?format=json&q=' +
-        statement;
+      statement;
     // TODO add cache logic here
 
     // Fetch the latest data.
@@ -196,7 +196,10 @@
     });
   };
 
-  // TODO add saveSelectedCities function here
+  // Save list of cities to localStorage
+  app.saveSelectedCities = function() {
+
+  }
 
   app.getIconClass = function(weatherCode) {
     // Weather codes: https://developer.yahoo.com/weather/documentation.html#codes
@@ -283,14 +286,41 @@
           temp: 56,
           code: 24
         },
-        forecast: [
-          {code: 44, high: 86, low: 70},
-          {code: 44, high: 94, low: 73},
-          {code: 4, high: 95, low: 78},
-          {code: 24, high: 75, low: 89},
-          {code: 24, high: 89, low: 77},
-          {code: 44, high: 92, low: 79},
-          {code: 44, high: 89, low: 77}
+        forecast: [{
+            code: 44,
+            high: 86,
+            low: 70
+          },
+          {
+            code: 44,
+            high: 94,
+            low: 73
+          },
+          {
+            code: 4,
+            high: 95,
+            low: 78
+          },
+          {
+            code: 24,
+            high: 75,
+            low: 89
+          },
+          {
+            code: 24,
+            high: 89,
+            low: 77
+          },
+          {
+            code: 44,
+            high: 92,
+            low: 79
+          },
+          {
+            code: 44,
+            high: 89,
+            low: 77
+          }
         ]
       },
       atmosphere: {
@@ -303,7 +333,7 @@
     }
   };
   // TODO uncomment line below to test app with fake data
-  app.updateForecastCard(initialWeatherForecast);
+  // app.updateForecastCard(initialWeatherForecast);
 
   // TODO add startup code here
 
