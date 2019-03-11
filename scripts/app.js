@@ -198,8 +198,9 @@
 
   // Save list of cities to localStorage
   app.saveSelectedCities = function() {
-
-  }
+    var selectedCities = JSON.stringify(app.selectedCities);
+    localStorage.selectedCities = selectedCities;
+  };
 
   app.getIconClass = function(weatherCode) {
     // Weather codes: https://developer.yahoo.com/weather/documentation.html#codes
@@ -332,10 +333,26 @@
       }
     }
   };
-  // TODO uncomment line below to test app with fake data
-  // app.updateForecastCard(initialWeatherForecast);
 
-  // TODO add startup code here
+  /****
+   * Please note that this app uses localStorage
+   * This should not be used in production
+   */
+  app.selectedCities = localStorage.selectedCities;
+  if (app.selectedCities) {
+    app.selectedCities = JSON.parse(app.selectedCities);
+    app.selectedCities.forEach(function(city) {
+      app.getForecast(city.key, city.label);
+    });
+  } else {
+    // The user's first time with the app or has not saved any cities
+    app.updateForecastCard(initialWeatherForecast);
+    app.selectedCities = [{
+      key: initialWeatherForecast.key,
+      label: initialWeatherForecast.label
+    }];
+    app.saveSelectedCities();
+  }
 
   // TODO add service worker code here
 })();
