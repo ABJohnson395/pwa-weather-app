@@ -62,12 +62,6 @@
     app.toggleAddDialog(false);
   });
 
-  // TODO init the app.selectedCities array here
-  // app.getForecast(key, label);
-  // TODO push the selected city to the array and save here
-  // app.toggleAddDialog(false);
-
-
   document.getElementById('butAddCancel').addEventListener('click', function() {
     // Close the add new city dialog
     app.toggleAddDialog(false);
@@ -317,7 +311,7 @@
      * scenario could guess the user's location via IP lookup and then inject
      * that data into the page.
      */
-    app.updateForecastCard(fakeForecasts);
+    app.updateForecastCard(fakeForecasts['2459115']);
     app.selectedCities = [{
       key: '2459115',
       label: 'New York, NY'
