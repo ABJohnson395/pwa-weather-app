@@ -1,18 +1,3 @@
-// Copyright 2016 Google Inc.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-
 (function() {
   'use strict';
 
@@ -287,30 +272,17 @@
         return 'partly-cloudy-day';
     }
   };
-
-  /************************************************************************
-   *
-   * Code required to start the app
-   *
-   * NOTE: To simplify this codelab, we've used localStorage.
-   *   localStorage is a synchronous API and has serious performance
-   *   implications. It should not be used in production applications!
-   *   Instead, check out IDB (https://www.npmjs.com/package/idb) or
-   *   SimpleDB (https://gist.github.com/inexorabletash/c8069c042b734519680c)
-   ************************************************************************/
-
+  // Code to start the app
+  // Please note that localStorage should not be used in prodcution
   app.selectedCities = localStorage.selectedCities;
+  // loaded the saved cities
   if (app.selectedCities) {
     app.selectedCities = JSON.parse(app.selectedCities);
     app.selectedCities.forEach(function(city) {
       app.getForecast(city.key, city.label);
     });
   } else {
-    /* The user is using the app for the first time, or the user has not
-     * saved any cities, so show the user some fake data. A real app in this
-     * scenario could guess the user's location via IP lookup and then inject
-     * that data into the page.
-     */
+    // Load New York for the first use or if no cities have been saved
     app.updateForecastCard(fakeForecasts['2459115']);
     app.selectedCities = [{
       key: '2459115',
